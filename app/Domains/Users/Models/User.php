@@ -5,6 +5,7 @@ namespace App\Domains\Users\Models;
 use App\Domains\Tranfers\Models\Transfer;
 use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -13,10 +14,13 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use UuidIncrements;
+    use SoftDeletes;
 
-    protected string $keyType = 'string';
+    protected $keyType = 'string';
+    public $incrementing = false;
 
-    public bool $incrementing = false;
+    public const DOC_TYPE_CPF = 'cpf';
+    public const DOC_TYPE_CNPJ = 'cnpj';
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +31,7 @@ class User extends Authenticatable
         'name',
         'email',
         'document',
+        'document_type',
         'password',
     ];
 
@@ -49,6 +54,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::created(fn ($model) => $model->wallet()->create([
+            'user_id' => $model->id,
+        ]));
+    }
+
     public function wallet()
     {
         return $this->hasOne(Wallet::class, 'user_id', 'id');
@@ -62,5 +76,10 @@ class User extends Authenticatable
     public function receivedTransfers()
     {
         return $this->hasMany(Transfer::class, 'receiver_id', 'id');
+    }
+
+    public function canTransfer()
+    {
+        return $this->document_type != self::DOC_TYPE_CNPJ;
     }
 }

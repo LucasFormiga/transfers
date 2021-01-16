@@ -5,15 +5,16 @@ namespace App\Domains\Users\Models;
 use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
     use HasFactory;
     use UuidIncrements;
+    use SoftDeletes;
 
-    protected string $keyType = 'string';
-
-    public bool $incrementing = false;
+    protected $keyType = 'string';
+    public $incrementing = false;
 
     protected $fillable = [
         'user_id',
