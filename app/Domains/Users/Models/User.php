@@ -1,15 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\Users\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Domains\Tranfers\Models\Transfer;
+use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
+    use UuidIncrements;
+
+    protected string $keyType = 'string';
+
+    public bool $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
@@ -19,6 +26,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'document',
         'password',
     ];
 
@@ -40,4 +48,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function wallet()
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
+    }
+
+    public function sentTransfers()
+    {
+        return $this->hasMany(Transfer::class, 'sender_id', 'id');
+    }
+
+    public function receivedTransfers()
+    {
+        return $this->hasMany(Transfer::class, 'receiver_id', 'id');
+    }
 }
