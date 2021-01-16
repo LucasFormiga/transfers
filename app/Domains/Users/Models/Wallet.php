@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Wallet extends Model
 {
     use HasFactory;
-    use UuidIncrements;
     use SoftDeletes;
+    use UuidIncrements;
 
     protected $keyType = 'string';
     public $incrementing = false;
