@@ -1,0 +1,11 @@
+FROM 421972709577.dkr.ecr.us-east-1.amazonaws.com/base:php7.2
+
+COPY docker/supervisord.conf /etc/supervisord.conf
+COPY docker/default.conf /etc/nginx/conf.d/default.conf
+COPY docker/www.conf /etc/php7/php-fpm.d/www.conf
+
+EXPOSE 80
+
+WORKDIR /var/www/app
+
+CMD ["/usr/bin/supervisord"]

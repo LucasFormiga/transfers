@@ -1,0 +1,14 @@
+# Ubuntu using PHP 7.4
+
+FROM ubuntu:latest
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt update -y && apt install -y software-properties-common && add-apt-repository ppa:ondrej/php -y
+
+RUN apt update -y && apt install -y supervisor nginx php7.4 php7.4-fpm php7.4-mbstring php7.4-gd php7.4-imap php7.4-curl \
+    php7.4-memcached php7.4-redis php7.4-mysql php7.4-xdebug php7.4-sqlite php7.4-apcu php7.4-bcmath php7.4-bz2 \
+    php7.4-gmp php7.4-intl php7.4-soap php7.4-xml php7.4-xmlrpc php7.4-zip sqlite composer git curl && \
+    sed -i 's/expose_php = On/expose_php = Off/g' /etc/php/7.4/fpm/php.ini && \
+    sed -i 's/memory_limit = 128M/memory_limit = 4G/g' /etc/php/7.4/fpm/php.ini && \
+    sed -i 's/max_execution_time = 30/max_execution_time = 600/g' /etc/php/7.4/fpm/php.ini
