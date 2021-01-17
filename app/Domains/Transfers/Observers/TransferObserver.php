@@ -3,6 +3,7 @@
 namespace App\Domains\Transfers\Observers;
 
 use App\Domains\Transfers\Models\Transfer;
+use App\Domains\Transfers\Repositories\TransferRepository;
 
 class TransferObserver
 {
@@ -18,6 +19,8 @@ class TransferObserver
         $payeeWallet->update([
             'balance' => ($payerWallet->value + $transfer->value),
         ]);
+
+        app(TransferRepository::class)->notify();
     }
 
     public function deleted(Transfer $transfer)
