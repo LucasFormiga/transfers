@@ -2,9 +2,11 @@
 
 namespace App\Domains\Users\Models;
 
-use App\Domains\Tranfers\Models\Transfer;
+use App\Domains\Transfers\Models\Transfer;
 use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -69,22 +71,22 @@ class User extends Authenticatable
         static::deleting(fn ($model) => $model->wallet->delete());
     }
 
-    public function wallet()
+    public function wallet(): HasOne
     {
         return $this->hasOne(Wallet::class, 'user_id', 'id');
     }
 
-    public function sentTransfers()
+    public function payer(): HasMany
     {
-        return $this->hasMany(Transfer::class, 'sender_id', 'id');
+        return $this->hasMany(Transfer::class, 'payer', 'id');
     }
 
-    public function receivedTransfers()
+    public function payee(): HasMany
     {
-        return $this->hasMany(Transfer::class, 'receiver_id', 'id');
+        return $this->hasMany(Transfer::class, 'payee', 'id');
     }
 
-    public function canTransfer()
+    public function canTransfer(): bool
     {
         return $this->document_type != self::DOC_TYPE_CNPJ;
     }

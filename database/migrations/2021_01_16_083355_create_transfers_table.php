@@ -15,8 +15,8 @@ class CreateTransfersTable extends Migration
     {
         Schema::create('transfers', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('sender_id')->references('id')->on('users');
-            $table->foreignUuid('receiver_id')->references('id')->on('users');
+            $table->foreignUuid('payer')->references('id')->on('users');
+            $table->foreignUuid('payee')->references('id')->on('users');
             $table->float('value', 8, 2);
             $table->timestamps();
             $table->softDeletes();

@@ -12,9 +12,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @var array
      */
-    protected $policies = [
-        // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-    ];
+    protected $policies = [];
 
     /**
      * Register any authentication / authorization services.
@@ -25,6 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('transfer-allowed', 'App\Domains\Transfers\Policies\TransferPolicy@store');
+        Gate::define('transfer-revert-allowed', 'App\Domains\Transfers\Policies\TransferPolicy@destroy');
     }
 }

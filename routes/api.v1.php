@@ -1,6 +1,5 @@
 <?php
 
-use App\Domains\Users\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('users', [UserController::class, 'store'])
+Route::post('users', [\App\Domains\Users\Controllers\UserController::class, 'store'])
     ->name('users.store');
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('users', UserController::class)
+    Route::apiResource('users', \App\Domains\Users\Controllers\UserController::class)
         ->only('update', 'destroy');
+
+    Route::post('/transfer', [\App\Domains\Transfers\Controllers\TransferController::class, 'store'])
+        ->name('transfer.send');
+
+    Route::delete('/users/{user}/transfers/{transfer}', [\App\Domains\Transfers\Controllers\TransferController::class, 'destroy'])
+        ->name('transfer.revert');
 });

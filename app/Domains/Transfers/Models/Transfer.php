@@ -1,35 +1,41 @@
 <?php
 
-namespace App\Domains\Tranfers\Models;
+namespace App\Domains\Transfers\Models;
 
+use App\Domains\Transfers\Observers\TransferObserver;
 use App\Domains\Users\Models\User;
+use App\Traits\Observable;
 use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Transfer extends Model
 {
     use HasFactory;
+    use Observable;
     use SoftDeletes;
     use UuidIncrements;
 
     protected $keyType = 'string';
     public $incrementing = false;
 
+    public static string $observer = TransferObserver::class;
+
     protected $fillable = [
-        'sender_id',
-        'receiver_id',
+        'payer',
+        'payee',
         'value',
     ];
 
-    public function sender()
+    public function sender(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'sender_id', 'id');
+        return $this->belongsTo(User::class, 'payer', 'id');
     }
 
-    public function receiver()
+    public function receiver(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'receiver_id', 'id');
+        return $this->belongsTo(User::class, 'payee', 'id');
     }
 }
