@@ -63,6 +63,10 @@ class User extends Authenticatable
         static::created(fn ($model) => $model->wallet()->create([
             'user_id' => $model->id,
         ]));
+
+        static::restored(fn ($model) => $model->wallet->restore());
+
+        static::deleting(fn ($model) => $model->wallet->delete());
     }
 
     public function wallet()
