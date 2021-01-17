@@ -14,10 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('users', [UserController::class, 'store'])
+    ->name('users.store');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', UserController::class)
         ->only('update', 'destroy');
 });
-
-Route::post('users', [UserController::class, 'store'])
-    ->name('users.store');

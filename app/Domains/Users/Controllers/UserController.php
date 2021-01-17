@@ -7,6 +7,7 @@ use App\Domains\Users\Requests\CreateUserRequest;
 use App\Domains\Users\Requests\UpdateUserRequest;
 use App\Domains\Users\Services\UserService;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
@@ -32,10 +33,10 @@ class UserController extends Controller
         ], Response::HTTP_OK);
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         return response()->json([
-            'success' => $this->service->destroy($user),
+            'success' => $this->service->destroy($request->user(), $user),
         ], Response::HTTP_OK);
     }
 }

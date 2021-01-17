@@ -24,7 +24,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'document' => $this->faker->unique()->randomNumber(11),
+            'document' => "{$this->faker->unique()->numberBetween(111111, 999999)}{$this->faker->unique()->numberBetween(11111, 99999)}",
             'document_type' => User::DOC_TYPE_CPF,
             'email' => $this->faker->unique()->safeEmail,
             'email_verified_at' => now(),
@@ -37,7 +37,7 @@ class UserFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'document' => $this->faker->unique()->randomNumber(14),
+                'document' => "{$this->faker->unique()->numberBetween(1111111, 9999999)}{$this->faker->unique()->numberBetween(1111111, 9999999)}",
                 'document_type' => User::DOC_TYPE_CNPJ,
             ];
         });

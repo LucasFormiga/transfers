@@ -22,9 +22,9 @@ class UserService
         return (bool) $user->update($data);
     }
 
-    public function destroy(User $user): bool
+    public function destroy(User $authUser, User $user): bool
     {
-        return auth()->user()->id == $user->id
+        return $authUser->id == $user->id
             ? (bool) $user->delete()
             : false;
     }
