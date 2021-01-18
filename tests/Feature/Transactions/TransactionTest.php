@@ -1,18 +1,18 @@
 <?php
 
-namespace Tests\Feature\Transfers;
+namespace Tests\Feature\Transactions;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-class TransferTest extends TestCase
+class TransactionTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
 
-    public function testItCanCreateAnTransfer()
+    public function testItCanCreateAnTransaction()
     {
         Sanctum::actingAs($this->user);
 
@@ -22,7 +22,7 @@ class TransferTest extends TestCase
             'value' => 100.00,
         ];
 
-        $response = $this->postJson(route('transfer.send'), $data);
+        $response = $this->postJson(route('transaction.send'), $data);
 
         $response->assertCreated();
 
@@ -30,7 +30,7 @@ class TransferTest extends TestCase
 
         $this->assertNotNull($response);
         $this->assertNotNull($data);
-        $this->assertDatabaseHas('transfers', [
+        $this->assertDatabaseHas('transactions', [
             'id' => $data['id'],
             'payer' => $data['payer'],
             'payee' => $data['payee'],
@@ -38,14 +38,14 @@ class TransferTest extends TestCase
         ]);
     }
 
-    public function testItCanRevertAnTransfer()
+    public function testItCanRevertAnTransaction()
     {
         Sanctum::actingAs($this->user);
 
-        $response = $this->deleteJson(route('transfer.revert',
+        $response = $this->deleteJson(route('transaction.revert',
             [
                 'user' => $this->user,
-                'transfer' => $this->transfer
+                'transaction' => $this->transaction
             ]
         ));
 
@@ -55,11 +55,11 @@ class TransferTest extends TestCase
             $response->json('success')
         );
 
-        $this->assertSoftDeleted('transfers', [
-            'id' => $this->transfer->id,
-            'payer' => $this->transfer->payer,
-            'payee' => $this->transfer->payee,
-            'value' => $this->transfer->value,
+        $this->assertSoftDeleted('transactions', [
+            'id' => $this->transaction->id,
+            'payer' => $this->transaction->payer,
+            'payee' => $this->transaction->payee,
+            'value' => $this->transaction->value,
         ]);
     }
 }

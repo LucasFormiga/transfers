@@ -20,9 +20,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('users', \App\Domains\Users\Controllers\UserController::class)
         ->only('update', 'destroy');
 
-    Route::post('/transfer', [\App\Domains\Transfers\Controllers\TransferController::class, 'store'])
-        ->name('transfer.send');
+    Route::post('/transaction', [\App\Domains\Transactions\Controllers\TransactionController::class, 'store'])
+        ->name('transaction.send');
 
-    Route::delete('/users/{user}/transfers/{transfer}', [\App\Domains\Transfers\Controllers\TransferController::class, 'destroy'])
-        ->name('transfer.revert');
+    Route::delete('/users/{user}/transactions/{transaction}', [\App\Domains\Transactions\Controllers\TransactionController::class, 'destroy'])
+        ->name('transaction.revert');
 });

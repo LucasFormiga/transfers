@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domains\Transfers\Repositories;
+namespace App\Domains\Transactions\Repositories;
 
 use Illuminate\Support\Facades\Http;
 
-class TransferRepository
+class TransactionRepository
 {
     public function authorize(): bool
     {

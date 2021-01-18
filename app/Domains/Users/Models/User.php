@@ -2,7 +2,7 @@
 
 namespace App\Domains\Users\Models;
 
-use App\Domains\Transfers\Models\Transfer;
+use App\Domains\Transactions\Models\Transaction;
 use App\Traits\UuidIncrements;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -78,12 +78,12 @@ class User extends Authenticatable
 
     public function payer(): HasMany
     {
-        return $this->hasMany(Transfer::class, 'payer', 'id');
+        return $this->hasMany(Transaction::class, 'payer', 'id');
     }
 
     public function payee(): HasMany
     {
-        return $this->hasMany(Transfer::class, 'payee', 'id');
+        return $this->hasMany(Transaction::class, 'payee', 'id');
     }
 
     public function canTransfer(): bool

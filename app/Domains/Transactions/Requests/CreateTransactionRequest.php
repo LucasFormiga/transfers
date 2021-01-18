@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Domains\Transfers\Requests;
+namespace App\Domains\Transactions\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateTransferRequest extends FormRequest
+class CreateTransactionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

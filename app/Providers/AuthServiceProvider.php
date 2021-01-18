@@ -23,7 +23,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::define('transfer-allowed', 'App\Domains\Transfers\Policies\TransferPolicy@store');
-        Gate::define('transfer-revert-allowed', 'App\Domains\Transfers\Policies\TransferPolicy@destroy');
+        Gate::define('transaction-allowed', 'App\Domains\Transactions\Policies\TransactionPolicy@store');
+        Gate::define('transaction-revert-allowed', 'App\Domains\Transactions\Policies\TransactionPolicy@destroy');
     }
 }

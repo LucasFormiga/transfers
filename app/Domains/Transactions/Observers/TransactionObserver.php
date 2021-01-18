@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Domains\Transfers\Observers;
+namespace App\Domains\Transactions\Observers;
 
-use App\Domains\Transfers\Models\Transfer;
-use App\Domains\Transfers\Repositories\TransferRepository;
+use App\Domains\Transactions\Models\Transaction;
+use App\Domains\Transactions\Repositories\TransactionRepository;
 
-class TransferObserver
+class TransactionObserver
 {
-    public function created(Transfer $transfer)
+    public function created(Transaction $transfer)
     {
         $payerWallet = $transfer->sender->wallet()->first();
         $payeeWallet = $transfer->receiver->wallet()->first();
@@ -20,10 +20,10 @@ class TransferObserver
             'balance' => ($payerWallet->value + $transfer->value),
         ]);
 
-        app(TransferRepository::class)->notify();
+        app(TransactionRepository::class)->notify();
     }
 
-    public function deleted(Transfer $transfer)
+    public function deleted(Transaction $transfer)
     {
         $payerWallet = $transfer->sender->wallet()->first();
         $payeeWallet = $transfer->receiver->wallet()->first();

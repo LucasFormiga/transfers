@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domains\Transfers\Models;
+namespace App\Domains\Transactions\Models;
 
-use App\Domains\Transfers\Observers\TransferObserver;
+use App\Domains\Transactions\Observers\TransactionObserver;
 use App\Domains\Users\Models\User;
 use App\Traits\Observable;
 use App\Traits\UuidIncrements;
@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Transfer extends Model
+class Transaction extends Model
 {
     use HasFactory;
     use Observable;
@@ -21,7 +21,7 @@ class Transfer extends Model
     protected $keyType = 'string';
     public $incrementing = false;
 
-    public static string $observer = TransferObserver::class;
+    public static string $observer = TransactionObserver::class;
 
     protected $fillable = [
         'payer',
